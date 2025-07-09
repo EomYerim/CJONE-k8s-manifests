@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spring-app
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -17,3 +18,14 @@ spec:
           image: 051826731133.dkr.ecr.ap-northeast-2.amazonaws.com/cjone-dev:860e26d
           ports:
             - containerPort: 8080
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: password
