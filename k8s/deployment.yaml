@@ -23,9 +23,9 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: cjone-dev-db-secret
-                  key: username
+                  key: DB_USERNAME
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: cjone-dev-db-secret
-                  key: password
+                  key: DB_PASSWORD
