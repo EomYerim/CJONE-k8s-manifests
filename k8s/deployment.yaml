@@ -33,3 +33,9 @@ spec:
                 secretKeyRef:
                   name: cjone-dev-db-secret
                   key: DB_PASSWORD
+
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cjone-dev-redis
+                  key: redis-password
