@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: spring-app
-          image: 051826731133.dkr.ecr.ap-northeast-2.amazonaws.com/cjone-dev:801530c
+          image: 051826731133.dkr.ecr.ap-northeast-2.amazonaws.com/cjone-dev:fde880c
           ports:
             - containerPort: 8080
           env:
