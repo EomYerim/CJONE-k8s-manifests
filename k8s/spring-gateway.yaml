@@ -15,20 +15,3 @@ spec:
         protocol: HTTP
       hosts:
         - "*" # 모든 호스트 요청을 받음
----
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: spring-app
-  namespace: default
-spec:
-  hosts:
-    - "*"
-  gateways:
-    - spring-app-gateway # 💡 방금 위에서 만든 새로운 Gateway 이름 지정
-  http:
-    - route:
-        - destination:
-            host: spring-app # spring-app Service로 트래픽을 보냅니다.
-            port:
-              number: 8080 # spring-app Service의 포트
