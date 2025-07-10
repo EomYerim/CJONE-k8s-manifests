@@ -1,0 +1,34 @@
+# spring-gateway.yaml
+
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: spring-app-gateway # 앱을 위한 새로운 Gateway 이름
+  namespace: default      # default 네임스페이스에 생성
+spec:
+  selector:
+    istio: ingressgateway # 이 부분은 istio-ingressgateway 파드를 가리킴
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*" # 모든 호스트 요청을 받음
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: spring-app
+  namespace: default
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - spring-app-gateway # 💡 방금 위에서 만든 새로운 Gateway 이름 지정
+  http:
+    - route:
+        - destination:
+            host: spring-app # spring-app Service로 트래픽을 보냅니다.
+            port:
+              number: 8080 # spring-app Service의 포트
