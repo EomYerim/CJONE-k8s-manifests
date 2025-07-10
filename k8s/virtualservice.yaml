@@ -17,4 +17,4 @@ spec:
         - destination:
             host: spring-app
             port:
-              number: 8080 # 👈 [수정 2] 올바른 Spring Boot 포트로 변경
+              number: 80 # 👈 [수정 2] 올바른 Spring Boot 포트로 변경
