@@ -1,5 +1,5 @@
 # k8s/deployment.yaml
-
+# 기존 경로
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,7 +17,6 @@ spec:
     spec:
       containers:
         - name: spring-app
-
           image: 051826731133.dkr.ecr.ap-northeast-2.amazonaws.com/cjone-dev:${IMAGE_TAG}
           ports:
             - containerPort: 8080
