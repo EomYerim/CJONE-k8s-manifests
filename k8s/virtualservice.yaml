@@ -8,7 +8,7 @@ spec:
   hosts:
     - "*"
   gateways:
-    - spring-app-gateway  # 올바른 Gateway 이름으로 변경
+    - spring-app-gateway  # Springboot Gateway 이름으로 변경
   http:
     - match:
         - uri:
@@ -17,4 +17,4 @@ spec:
         - destination:
             host: spring-app
             port:
-              number: 80 # 올바른 Spring Boot 포트로 변경
+              number: 80 #  Spring Boot 포트로 변경
