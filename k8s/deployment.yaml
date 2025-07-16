@@ -39,3 +39,15 @@ spec:
                 secretKeyRef:
                   name: cjone-dev-redis
                   key: redis-password
+
+            - name: OPENSEARCH_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: opensearch-credentials
+                  key: username
+                  
+            - name: OPENSEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: opensearch-credentials
+                  key: password
