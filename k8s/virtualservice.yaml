@@ -4,10 +4,12 @@ metadata:
   name: spring-app
   namespace: default
 spec:
+  # Gateway와 VirtualService를 명확하게 연결하기 위해 hosts 필드를 통일합니다.
+  # Gateway가 모든 호스트("")를 받으므로, 여기서도 모든 호스트("*")를 지정합니다.
   hosts:
     - "*"
   gateways:
-    - spring-app-gateway
+    - spring-app-gateway # kubectl get gateway로 확인한 이름
   http:
     # --- 1. AI 포인트 적립 경로 (장애 시나리오) ---
     - match:
@@ -17,10 +19,11 @@ spec:
         - destination:
             host: spring-app
             port:
-              number: 8080
-      timeout: 0.5s  # 의도적 장애 설정
+              # [수정됨] Service가 리스닝하는 포트인 80으로 변경합니다.
+              number: 80
+      timeout: 0.5s
 
-    # --- 2. 나머지 모든 경로 (정상 타임아웃 명시) ---
+    # --- 2. 일반 포인트 적립 및 기타 경로 (정상) ---
     - match:
         - uri:
             prefix: "/"
@@ -28,5 +31,5 @@ spec:
         - destination:
             host: spring-app
             port:
-              number: 8080
-      timeout: 30s  # ✅ 명시적으로 충분한 타임아웃 설정
+              # [수정됨] Service가 리스닝하는 포트인 80으로 변경합니다.
+              number: 80
