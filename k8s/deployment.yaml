@@ -1,4 +1,4 @@
-# k8s/deployment.yaml -> redis 연결 추가 (AWS Cache v6)
+# k8s/deployment.yaml -> redis 연결 추가 (AWS Cache v8)
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: spring-app
-          image: 051826731133.dkr.ecr.ap-northeast-2.amazonaws.com/cjone-dev:d8a5fff
+          image: 051826731133.dkr.ecr.ap-northeast-2.amazonaws.com/cjone-dev:rollback-bacaec2-1753265723
           ports:
             - containerPort: 8080
           env:
@@ -39,3 +39,15 @@ spec:
                 secretKeyRef:
                   name: cjone-dev-redis
                   key: redis-password
+
+            - name: OPENSEARCH_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: opensearch-credentials
+                  key: username
+                  
+            - name: OPENSEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: opensearch-credentials
+                  key: password
