@@ -1,4 +1,3 @@
-
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -8,13 +7,32 @@ spec:
   hosts:
     - "*"
   gateways:
-    - spring-app-gateway  # Springboot Gateway
+    - spring-app-gateway # Istio Ingress Gateway
   http:
+    # --- 1. AI 포인트 적립 경로 (장애 시나리오) ---
+    # 신규 기능인 AI 포인트 적립 API 경로에 대한 라우팅 규칙입니다.
+    # 이 경로에만 의도적으로 매우 짧은 타임아웃(0.5초)을 설정하여 장애를 시뮬레이션합니다.
     - match:
         - uri:
-            prefix: /
+            # AI 기반 포인트 적립 기능의 API 경로
+            prefix: "/api/v1/points/accumulate-ai"
       route:
         - destination:
-            host: spring-app
+            host: spring-app # spring-app 서비스로 트래픽을 보냅니다.
             port:
-              number: 80 #  Spring Boot 포트로 변경
+              number: 8080 # 컨테이너 포트와 일치하는 서비스 포트를 사용합니다.
+      # 0.5초의 타임아웃 설정. 백엔드 응답이 이 시간보다 길어지면 Istio는 504 Gateway Timeout 에러를 반환합니다.
+      # 이것이 바로 '인프라 설정 오류로 인한 장애'의 근본 원인이 됩니다.
+      timeout: 0.5s
+
+    # --- 2. 일반 포인트 적립 및 기타 경로 (정상) ---
+    # 위에서 정의한 경로 외의 모든 트래픽에 대한 기본 라우팅 규칙입니다.
+    - match:
+        - uri:
+            # 그 외 모든 경로
+            prefix: "/"
+      route:
+        - destination:
+            host: spring-app # 동일한 spring-app 서비스로 트래픽을 보냅니다.
+            port:
+              number: 8080
